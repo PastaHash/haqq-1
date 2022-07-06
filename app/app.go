@@ -3,13 +3,13 @@ package app
 import (
 	"context"
 	"encoding/json"
-	enccodec "github.com/tharsis/ethermint/encoding/codec"
 	"io"
 	"net/http"
 	"os"
 	"path/filepath"
 
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
+	enccodec "github.com/tharsis/ethermint/encoding/codec"
 
 	"github.com/gorilla/mux"
 	"github.com/rakyll/statik/fs"
@@ -143,7 +143,7 @@ func init() {
 const (
 	// Name defines the application binary name
 	Name           = "haqqd"
-	UpgradeName    = "v1.0.0"
+	UpgradeName    = "v1.0.1"
 	MainnetChainID = "haqq_11235"
 )
 
@@ -405,11 +405,9 @@ func NewHaqq(
 	govRouter := govtypes.NewRouter()
 	govRouter.AddRoute(govtypes.RouterKey, govtypes.ProposalHandler).
 		AddRoute(paramproposal.RouterKey, params.NewParamChangeProposalHandler(app.ParamsKeeper)).
-		AddRoute(distrtypes.RouterKey, NewHaqqGovHandlerDecorator(distrtypes.RouterKey, distr.NewCommunityPoolSpendProposalHandler(app.DistrKeeper))).
 		AddRoute(upgradetypes.RouterKey, upgrade.NewSoftwareUpgradeProposalHandler(app.UpgradeKeeper)).
-		AddRoute(erc20types.RouterKey, erc20.NewErc20ProposalHandler(&app.Erc20Keeper))
-
-	// AddRoute(distrtypes.RouterKey, distr.NewCommunityPoolSpendProposalHandler(app.DistrKeeper)).
+		AddRoute(erc20types.RouterKey, erc20.NewErc20ProposalHandler(&app.Erc20Keeper)).
+		AddRoute(distrtypes.RouterKey, distr.NewCommunityPoolSpendProposalHandler(app.DistrKeeper))
 	// AddRoute(ibchost.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper)).
 	// AddRoute(incentivestypes.RouterKey, incentives.NewIncentivesProposalHandler(&app.IncentivesKeeper))
 

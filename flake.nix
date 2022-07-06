@@ -2,7 +2,7 @@
   description = "A very basic flake";
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/21.11;
+    nixpkgs.url = github:NixOS/nixpkgs/22.05;
     nixpkgs-unstable.url = github:NixOS/nixpkgs/nixpkgs-unstable;
     utils.url = github:numtide/flake-utils;
   };
@@ -19,7 +19,7 @@
         devShell = pkgs.mkShell {
           buildInputs = (
             with pkgs; [
-              go_1_17
+              go_1_18
             ]
           ) ++ (
             with pkgsUnstable; [
